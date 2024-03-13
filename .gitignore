@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# Arquivos de log
+logs
+*.log
+
+# Arquivos de construção
+build/
+dist/
+out/
+
+# Arquivos de configuração locais
+.env
+
+# Dependências específicas do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+.tmp/
+.temp/
+.tempignore
+
+# Arquivos de cache
+.cache/
