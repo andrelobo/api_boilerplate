@@ -1,19 +1,32 @@
 const express = require('express');
 const router = express.Router();
-
-// Importar o controlador de usuários
-const UserController = require('../controllers/UserController');
+const UserController = require('../controllers/userController');
 
 // Rota para criar um novo usuário
-router.post('/users', UserController.createUser);
+
+
+router.post('/', (req, res) => {
+    console.log('Rota POST /users chamada');
+    UserController.createUser(req, res);
+});
 
 // Rota para obter detalhes de um usuário pelo ID
-router.get('/users/:id', UserController.getUserById);
+router.get('/:id', UserController.getUserById);
+
+// Rota para listar todos os usuários
+router.get('/', UserController.getAllUsers);
+
 
 // Rota para atualizar os detalhes de um usuário pelo ID
-router.put('/users/:id', UserController.updateUserById);
+router.put('/:id', UserController.updateUserById);
 
 // Rota para excluir um usuário pelo ID
-router.delete('/users/:id', UserController.deleteUserById);
+router.delete('/:id', (req, res, next) => {
+  if (!req || !req.params || !req.params.id) {
+    return next(new Error('Bad request'));
+  }
+  UserController.deleteUserById(req, res, next);
+});
 
 module.exports = router;
+
