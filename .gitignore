@@ -18,5 +18,3 @@ out/
 .temp/
 .tempignore
 
-# Arquivos de cache
-.cache/
