@@ -36,11 +36,9 @@ Before getting started, ensure you have the following installed:
    ```plaintext
    PORT=7777
    MONGODB_URL=your-mongodb-url
-   SMTP_HOST=your-smtp-host
-   SMTP_PORT=your-smtp-port
-   SMTP_USER=your-smtp-username
-   SMTP_PASS=your-smtp-password
-   ```
+   SENDGRID_API_KEY=your-sendgrid-api-key
+   JWT_SECRET= SECRET
+
 
 ## Usage
 
