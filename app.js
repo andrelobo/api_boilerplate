@@ -4,13 +4,38 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 
 // Configuração do servidor Express
-const app = express();
+const app = express() || null;
 const PORT = process.env.PORT || 7777; 
+if (!app) {
+    throw new Error('Aplicativo não pode ser nulo');
+}
+
+
+const swaggerOptions = {
+    swaggerDefinition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'API Boilerplate Documentation',
+        description: 'API Boilerplate Documentation',
+        version: '1.0.0',
+      },
+    },
+    apis: ['./api/users/routes/*.js'], // Path to the files containing your API routes
+  };
+  
+  const swaggerSpec = swaggerJsdoc(swaggerOptions);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Configuração do middleware
 app.use(bodyParser.json());
+if (!bodyParser.json()) {
+    throw new Error('Middleware body-parser.json não pode ser nulo');
+}
 
 // Conexão com o MongoDB
 mongoose.connect(process.env.MONGODB_URL, {
@@ -19,6 +44,9 @@ mongoose.connect(process.env.MONGODB_URL, {
 }).then(() => {
     console.log('Conexão com o MongoDB estabelecida com sucesso');
 }).catch((err) => {
+    if (!err) {
+        throw new Error('Erro de conexão com o MongoDB não pode ser nulo');
+    }
     console.error('Erro de conexão com o MongoDB:', err);
 });
 
@@ -44,19 +72,19 @@ app.post('/api/reset-password', async (req, res) => {
         // await emailService.sendPasswordResetEmail(email);
         res.status(200).json({ message: 'E-mail de redefinição de senha enviado com sucesso' });
     } catch (error) {
+        if (!error) {
+            throw new Error('Erro de envio de e-mail de redefinição de senha não pode ser nulo');
+        }
         console.error('Erro ao enviar e-mail de redefinição de senha:', error);
         res.status(500).json({ error: 'Ocorreu um erro ao processar sua solicitação' });
     }
 });
 
-
 console.log('Iniciando o servidor...');
 
 // Ponto de entrada para o servidor
 app.listen(PORT, () => {
-    if (!app) {
-        throw new Error('Aplicativo não pode ser nulo');
-    }
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
 

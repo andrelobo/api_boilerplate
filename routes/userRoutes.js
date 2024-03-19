@@ -16,9 +16,9 @@ router.get('/:id',authenticateToken, UserController.getUserById);
 router.put('/:id', authenticateToken, UserController.updateUserById);
 
 // Rota para excluir um usuário pelo ID
-router.delete('/:id' , UserController.deleteUserById);
+router.delete('/:id', authenticateToken , UserController.deleteUserById);
 
 // Rota para listar todos os usuários
-router.get('/',  UserController.getAllUsers);
+router.get('/', authenticateToken , UserController.getAllUsers);
 
 module.exports = router;
